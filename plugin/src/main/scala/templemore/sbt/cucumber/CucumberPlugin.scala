@@ -10,7 +10,7 @@ import templemore.sbt.util._
  */
 object CucumberPlugin extends Plugin with Integration {
 
-  private val projectVersion = "0.7.2"
+  private val projectVersion = "0.8.0"
 
   type LifecycleCallback = () => Unit
 
@@ -24,7 +24,6 @@ object CucumberPlugin extends Plugin with Integration {
   val cucumberSystemProperties = SettingKey[Map[String, String]]("cucumber-system-properties")
   val cucumberJVMOptions = SettingKey[List[String]]("cucumber-jvm-options")
 
-  val cucumberMainClass = SettingKey[String]("cucumber-main-class")
   val cucumberFeaturesLocation = SettingKey[String]("cucumber-features-location")
   val cucumberStepsBasePackage = SettingKey[String]("cucumber-steps-base-package")
   val cucumberExtraOptions = SettingKey[List[String]]("cucumber-extra-options")
@@ -51,8 +50,8 @@ object CucumberPlugin extends Plugin with Integration {
     }
 
   protected def cucumberSettingsTask: Initialize[Task[JvmSettings]] =
-    (fullClasspath in Test, cucumberMainClass, streams, cucumberSystemProperties, cucumberJVMOptions, cucumberMaxMemory, cucumberMaxPermGen) map {
-      (cp, mc, s, sp, jvmopt, mm, mpg) => JvmSettings(cp.toList.map(_.data), mc, LoggedOutput(s.log), sp, jvmopt, Some(mm), Some(mpg))
+    (fullClasspath in Test, streams, cucumberSystemProperties, cucumberJVMOptions, cucumberMaxMemory, cucumberMaxPermGen) map {
+      (cp, s, sp, jvmopt, mm, mpg) => JvmSettings(cp.toList.map(_.data), "cucumber.api.cli.Main", LoggedOutput(s.log), sp, jvmopt, Some(mm), Some(mpg))
     }
 
   protected def cucumberOptionsTask: Initialize[Task[Options]] =
@@ -70,9 +69,6 @@ object CucumberPlugin extends Plugin with Integration {
   private def defaultBefore() = {}
   private def defaultAfter() = {}
 
-  private def cucumberMain(scalaVersion: String) = 
-    if ( scalaVersion.startsWith("2.10") ) "cucumber.api.cli.Main" else "cucumber.cli.Main"
-
   val cucumberSettings: Seq[Setting[_]] = Seq(
     resolvers += "Templemore Repository" at "http://templemore.co.uk/repo",
     libraryDependencies += "templemore" %% "sbt-cucumber-integration" % projectVersion % "test",
@@ -87,7 +83,6 @@ object CucumberPlugin extends Plugin with Integration {
     cucumberSystemProperties := Map.empty[String, String],
     cucumberJVMOptions := Nil,
 
-    cucumberMainClass <<= (scalaVersion) { sv => cucumberMain(sv) },
     cucumberFeaturesLocation := "classpath:",
     cucumberStepsBasePackage := "",
     cucumberExtraOptions := List.empty[String],

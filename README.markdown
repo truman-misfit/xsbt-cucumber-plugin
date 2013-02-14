@@ -3,15 +3,15 @@ xsbt-cucumber-plugin
 
 An [sbt 0.12.x](https://github.com/harrah/xsbt/wiki) plugin for running [Cucumber](http://cukes.info) features.
 
-### IMPORTANT NOTES ABOUT THIS RELEASE (0.7.x) ###
-It adds the ability to run cucumber as a standalone SBT task but also as a test runner within the standard 'test' task (either within the Test or within the IntegrationTest configs). To facilitate this, there has been one significant change that you should be aware of: the default location for feature files has changed from the src/test/features directory to the classpath. This is required as running as a test framework only has access to the test classpath. Features should therefore now live under src/test/resources. It is possible to change this back to another location by overriding the cucumberFeaturesLocation setting, but if you change this to anything other than the classpath then the 'test' task will not be able to find features.
+### IMPORTANT NOTES ABOUT RELEASES 0.7.x ONWARDS ###
+Release 0.7.0 added the ability to run cucumber as a standalone SBT task but also as a test runner within the standard 'test' task (either within the Test or within the IntegrationTest configs). To facilitate this, there was been one significant change that you should be aware of: the default location for feature files changed from the src/test/features directory to the classpath. This is required as running as a test framework only has access to the test classpath. Features should therefore now live under src/test/resources. It is possible to change this back to another location by overriding the cucumberFeaturesLocation setting, but if you change this to anything other than the classpath then the 'test' task will not be able to find features.
 
 ## Overview ##
 Provides the ability to run Cucumber-jvm within the SBT environment. Originally based on the [cuke4duke-sbt-plugin](https://github.com/rubbish/cuke4duke-sbt-plugin) by rubbish and my original implementation for SBT 0.7.x. Specifics for this release:
 
-* Works with xsbt 0.12.0
-* Works with cucumber-jvm (version 1.0.9 for Scala 2.9.x and version 1.1.1 for Scala 2.10.0-RC1/RC2)
-* Allows projects compiled and running against Scala 2.9.1, 2.9.2 and 2.10.0-RC1/RC2 
+* Works with xsbt 0.12.x
+* Works with cucumber-jvm (version 1.1.3 - which is now cross built for Scala 2.9.x and 2.10.x)
+* Allows projects compiled and running against Scala 2.9.x and 2.10.x 
 
 ## Usage - Standalone Task ##
 Install the plugin (see later). By default features files go in the 'src/test/resources' directory. Step definitions go in 'src/test/scala'. Finally from the sbt console call the task:
@@ -120,7 +120,7 @@ To install the cucumber plugin, add entries to the build plugins file (project/p
 
     resolvers += "Templemore Repository" at "http://templemore.co.uk/repo"
 
-    addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.7.2")
+    addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
 
 ### Basic Configuration ###
 To add the cucumber plugin settings to a basic project, just add the following to the build.sbt file:
@@ -212,6 +212,10 @@ This plugin will continue to track releases of both SBT (0.10 and onwards) and C
 Requests for features can be posted to the issues list or emailed to the author.
 
 ## Release History ##
+
+### 0.8.0 ###
+
+Supports a single version of cucumber-jvm that is cross-built for both Scala 2.9.x and 2.10.x
 
 ### 0.7.2 ###
 
