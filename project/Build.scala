@@ -3,8 +3,8 @@ import Keys._
 
 object Settings {
   val buildOrganization = "templemore"
-  val buildScalaVersion = "2.11.2"
-  val crossBuildScalaVersions = Seq("2.10.4", "2.11.2")
+  val buildScalaVersion = "2.11.6"
+  val crossBuildScalaVersions = Seq("2.10.4", "2.11.2", "2.11.6")
   val buildVersion      = "0.9.0-SNAPSHOT"
 
   val buildSettings = Defaults.defaultSettings ++
