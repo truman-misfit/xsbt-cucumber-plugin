@@ -12,10 +12,13 @@ import sbt.OutputStrategy
 case class JvmLauncher(settings: JvmSettings) {
 
   private val maxMemory = settings.overrideMaxMemory.getOrElse("256M")
-  private val maxPermGen = settings.overrideMaxPermGen.getOrElse("64M")
+  // private val maxPermGen = settings.overrideMaxPermGen.getOrElse("64M")
 
+  // private val jvmArgs = ("-classpath" :: makeClasspath ::
+  //                       ("-Xmx%s" format maxMemory) :: ("-XX:MaxPermSize=%s" format maxPermGen) :: Nil) ++
+  //                       makeSystemProperties ++ settings.jvmOptions
   private val jvmArgs = ("-classpath" :: makeClasspath ::
-                        ("-Xmx%s" format maxMemory) :: ("-XX:MaxPermSize=%s" format maxPermGen) :: Nil) ++
+                        ("-Xmx%s" format maxMemory) :: Nil) ++
                         makeSystemProperties ++ settings.jvmOptions
 
   def launch(params: List[String]): Int = {
